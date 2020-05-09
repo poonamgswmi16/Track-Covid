@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { CallApiService } from './call-api.service';
+
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,9 @@ import { CallApiService } from './call-api.service';
 })
 export class AppComponent {
   
-  constructor(private svc : CallApiService)
+  constructor(private http : HttpClient)
   {
-       svc.fetchApiData();
+      
   }
 
 }

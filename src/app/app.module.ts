@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DisplayDataComponent } from './display-data/display-data.component';
-import {CallApiService} from './call-api.service';
+
 import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
@@ -19,7 +19,7 @@ import {HttpClientModule} from '@angular/common/http';
     HttpClientModule
   ],
   /*Services used by Module*/
-  providers: [CallApiService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
