@@ -7,10 +7,23 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./display-data.component.css']
 })
 export class DisplayDataComponent implements OnInit {
-  alphas: any = [];
+  countries: any = [];
 
-  constructor(private http : HttpClient ) {
-    
+  filteredCountries: any=[];
+
+  private  _searchTerm: string;
+
+  get searchTerm():string{
+    return this._searchTerm;
+  }
+  set searchTerm(value: string)
+  {
+    this._searchTerm = value;
+    this.filteredCountries = this.filterData(this._searchTerm);
+  }
+
+  constructor(private http : HttpClient ) 
+  { 
     http.get('https://pomber.github.io/covid19/timeseries.json')
       .subscribe((response)=> {
         var totalArr =[];
@@ -23,13 +36,19 @@ export class DisplayDataComponent implements OnInit {
             tempArr.push(newCases);
             tempArr.push(response[country][response[country].length-1].deaths)
             tempArr.push(response[country][response[country].length-1].recovered)
-            this.alphas.push(tempArr);
+            this.countries.push(tempArr);
         }
+        this.filteredCountries = this.countries;
       }
         );
     
    }
-
+   filterData(value: string):void{
+  return this.countries.filter((country)=>
+          country[0].toLowerCase().indexOf(value.toLowerCase())!==-1  
+    )
+   }
+  
   ngOnInit(): void {
   }
 
