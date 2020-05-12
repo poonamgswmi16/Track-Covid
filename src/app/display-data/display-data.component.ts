@@ -1,5 +1,5 @@
 import { Component, OnInit, Input , OnChanges, SimpleChanges} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'display-data',
@@ -40,6 +40,9 @@ export class DisplayDataComponent implements OnInit , OnChanges{
   {
      this.countries = this.county.slice();
      this.filteredCountries = this.countries;    
+     this.filteredCountries.sort((a,b)=>{
+      return b[1]-a[1];
+      })
   }
 
 }
