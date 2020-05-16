@@ -1,6 +1,5 @@
 import { Component, OnInit, Input , OnChanges, SimpleChanges} from '@angular/core';
 
-
 @Component({
   selector: 'display-data',
   templateUrl: './display-data.component.html',

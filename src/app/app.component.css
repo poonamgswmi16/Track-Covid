@@ -1,0 +1,58 @@
+.jumbotron {
+  padding-top:20px;
+  padding-bottom: 20px;
+  margin-bottom: 15px;
+}
+.navbar {
+    overflow: hidden;
+    /*background-color: RGB(233, 236, 239);*/
+    background-color: black;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px 14px;
+    text-decoration: none;
+    font-size: 17px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+   .navbar a:hover  {
+   /* background: grey; */
+    color: rgb(64, 201, 243);
+    
+  } 
+  
+  .navbar a.active {
+  background-color:RGB(233, 236, 239);
+    color: blue;
+  }
+ 
+
+  svg {
+    width: 23px;
+    height: 20px;
+}
+/* svg:hover path {
+    fill: red;
+} */
+
+a, a svg {
+	color: #fff;
+	fill: white;
+}
+
+a:hover {
+	color: #111;
+}
+
+a:hover svg {
+  fill: rgb(64, 201, 243);
+  color: green;
+}
