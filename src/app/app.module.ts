@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_ID, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DisplayDataComponent } from './display-data/display-data.component';
 import { FormsModule } from '@angular/forms'; 
 import {HttpClientModule} from '@angular/common/http';
+import { GetDataFromApiService } from './get-data-from-api.service';
 
 @NgModule({
   /*Components in module */
@@ -20,7 +21,7 @@ import {HttpClientModule} from '@angular/common/http';
     FormsModule
   ],
   /*Services used by Module*/
-  providers: [],
+  providers: [GetDataFromApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
