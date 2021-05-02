@@ -12,9 +12,13 @@ export class GetDataFromApiService {
    
   }
 
-   getData ()
+   getWorldData ()
    {
     return this.http.get('https://pomber.github.io/covid19/timeseries.json')
+   }
+   getIndiaData ()
+   {
+    return this.http.get('https://api.rootnet.in/covid19-in/stats/history')
    }
 
    peak = new BehaviorSubject<any>(0)

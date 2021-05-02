@@ -1,1 +1,29 @@
-<p>india-state-wise works!</p>
+<div class="container" >
+    <div class="form-group">
+        <input type="text" class="form-control"  placeholder="Search By State"   />
+        <!-- <input type="text" class="form-control"  placeholder="Search By State"  [(ngModel)]="searchTerm"  /> -->
+    </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Total Cases</th>
+            <th>Deaths</th>
+            <!-- <th>Recovered</th> -->
+            <th>Peak</th>
+            <th>Peak-Date</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr  *ngFor="let item of filteredStates">
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}} <span class="newCases">+{{item[2]}} </span></td>
+            <td>{{item[3]}}</td>                                  
+            <!-- <td class="recovered">{{item[4]}}</td> -->
+            <td>{{item[5]}}</td>
+            <td>{{item[6]}}</td>
+          </tr>        
+        </tbody>
+      </table>
+    </div>
+  

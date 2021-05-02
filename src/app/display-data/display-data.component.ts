@@ -34,7 +34,7 @@ export class DisplayDataComponent implements OnInit,OnChanges {
   }
 
   ngOnInit(): void {    
-    this.getDataFromApi.getData() .subscribe((response)=> {
+    this.getDataFromApi.getWorldData() .subscribe((response)=> {
       
       var totalArr =[];
       this.countries=[]
@@ -74,7 +74,7 @@ export class DisplayDataComponent implements OnInit,OnChanges {
               tempArr.push(max);
               tempArr.push(peakDate)  
       }
-      console.log(tempArr)
+      
     }
       );
       this.getDataFromApi.peak.next(800); 
