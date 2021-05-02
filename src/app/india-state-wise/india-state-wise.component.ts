@@ -17,11 +17,13 @@ export class IndiaStateWiseComponent implements OnInit {
       this.states = []
       
       var lastDayObj
+      var secondLastDayObj
       for( let responseData in response)
       {
         if(responseData=="data")
         {
          lastDayObj = response[responseData][response[responseData].length-1]
+         secondLastDayObj = response[responseData][response[responseData].length-2]
         }
       }
       var objData
@@ -29,12 +31,23 @@ export class IndiaStateWiseComponent implements OnInit {
       {
          objData = lastDayObj[d]
       }
+      var secondLastObjData
+      for (let v in secondLastDayObj)
+      { 
+        if(v=="regional")
+        secondLastObjData = secondLastDayObj[v]
+        
+      }var secondLastDayCount
+     
+      var lastDayCount 
       for(let x in objData)
       {
         var tempArr = [];  
+        lastDayCount = objData[x].confirmedCasesIndian
+        secondLastDayCount = secondLastObjData[x].confirmedCasesIndian
         tempArr.push(objData[x].loc)
-        tempArr.push(objData[x].confirmedCasesIndian)
-        tempArr.push(25)
+        tempArr.push(lastDayCount)
+        tempArr.push(lastDayCount-secondLastDayCount)
         tempArr.push(objData[x].deaths)
         console.log(objData[x])
         this.states.push(tempArr)
