@@ -6,9 +6,9 @@ import { GetDataFromApiService } from '../get-data-from-api.service';
   templateUrl: './display-data.component.html',
   styleUrls: ['./display-data.component.css']
 })
-export class DisplayDataComponent implements OnInit {
+export class DisplayDataComponent implements OnInit,OnChanges {
 
-  
+  peak ;
   countries: any = [];
   filteredCountries: any = undefined;
 
@@ -22,10 +22,9 @@ export class DisplayDataComponent implements OnInit {
     this.filteredCountries = this.filterData(this._searchTerm);
   }
 
-  constructor(private getDataFromApi :GetDataFromApiService) {    
-    
- 
-
+  constructor(private getDataFromApi :GetDataFromApiService) {  
+    this.getDataFromApi.peak.subscribe(peakVal =>
+      this.peak= peakVal)
   }
 
   filterData(value: string): void {
@@ -51,35 +50,40 @@ export class DisplayDataComponent implements OnInit {
           tempArr.push(response[country][response[country].length-1].recovered)
           this.countries.push(tempArr);
                       
-          // if(country=="India") 
-          // {     let max=0;
-          //     for(let i=0;i<response[country].length-1;i++ )
-          //     {
-          //       let dailyNew = response[country][i+1].confirmed-response[country][i].confirmed
-                               
-          //       if(dailyNew > max)
-          //         max = dailyNew
-          //     }
-          //     console.log(max)
-          //     console.log(response[country])
-          //     tempArr.push(max);
-          // }
-          // console.log(tempArr)
           this.countries = this.countries.slice();
           this.filteredCountries = this.countries;    
           this.filteredCountries.sort((a,b)=>{
            return b[1]-a[1];
            })
+
+               let max=0;
+               let peakDate;
+              for(let i=0; i<response[country].length-1; i++ )
+              {
+                let dailyNew = response[country][i+1].confirmed-response[country][i].confirmed
+                               
+                if(dailyNew > max)
+                {
+                  max = dailyNew
+                  peakDate = response[country][i+1].date
+  
+                  peakDate = new Date(peakDate).toDateString().substring(4,new Date(peakDate).toDateString().length) 
+                 
+                }
+              }
+              tempArr.push(max);
+              tempArr.push(peakDate)  
       }
+      console.log(tempArr)
     }
       );
-  
-    
+      this.getDataFromApi.peak.next(800); 
+      
+      
   }
-  // ngOnChanges (changes : SimpleChanges)
-  // {
-  //    this.countries = this.countries.slice();
-  //    this.filteredCountries = this.countries;    
-  // }
+  ngOnChanges (changes : SimpleChanges)
+  {
+   // this.peak = this.getDataFromApi.peak.next(500); 
+  }
  
 }

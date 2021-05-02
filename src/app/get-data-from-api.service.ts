@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,4 +16,6 @@ export class GetDataFromApiService {
    {
     return this.http.get('https://pomber.github.io/covid19/timeseries.json')
    }
+
+   peak = new BehaviorSubject<any>(0)
 }
