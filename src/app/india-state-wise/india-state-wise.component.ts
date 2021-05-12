@@ -9,52 +9,91 @@ import { GetDataFromApiService } from '../get-data-from-api.service';
 export class IndiaStateWiseComponent implements OnInit {
   private _searchTerm: string;
   states: any = [];
+  state: any = [];
+  count: any =[];
+  stateData: any = [];
+  countryCount: any = [];
   filteredStates: any = undefined;
   constructor(private getDataFromApi :GetDataFromApiService) { }
 
   ngOnInit(): void {
-    this.getDataFromApi.getIndiaData() .subscribe((response)=> {
-      this.states = []
+    var deathMap = new Map()
+  
+    this.getDataFromApi.getIndiaData().subscribe((response)=> {
       
-      var lastDayObj
-      var secondLastDayObj
-      for( let responseData in response)
-      {
-        if(responseData=="data")
+      var lastDayObj     
+      
+           let resDataLen = response["data"].length
+           lastDayObj = response["data"][resDataLen-1]
+       
+        for(let obj in lastDayObj['regional'])
         {
-         lastDayObj = response[responseData][response[responseData].length-1]
-         secondLastDayObj = response[responseData][response[responseData].length-2]
+          deathMap.set(lastDayObj['regional'][obj].loc, lastDayObj['regional'][obj].deaths)        
         }
-      }
-      var objData
-      for(let d in lastDayObj)
-      {
-         objData = lastDayObj[d]
-      }
-      var secondLastObjData
-      for (let v in secondLastDayObj)
-      { 
-        if(v=="regional")
-        secondLastObjData = secondLastDayObj[v]
+          
+    })
+    
+        this.getDataFromApi.getStateData().subscribe((response)=> {      
+
+          this.state = []
+          this.states = []
+          
+          this.countryCount =0 
+          this.count=0;
+          for(let q in response[0])
+          {
+              ++this.count;
+          }
+          for(let v in response)
+          {  let totalStateCount=0 
+            let in24hr =0
+            let in48hr =0
+            let in72hr = 0;
+            let counter =0;
+            let stateData= []
+            let maxArray = new Map();
+            
+            for(let k in response[v])
+            {
+              if(!isNaN(response[v][k]))
+              {
+                totalStateCount = response[v][k]
+              
+                if(maxArray.size==0)
+                {
+                  maxArray.set(1,"DD")
+                  maxArray.set(totalStateCount, "Date")   
+                }   
+                else {
+                    const sum =  [ ...maxArray.keys() ].reduce( (a, b) => a + b)
+                      if(totalStateCount-sum>0)
+                        maxArray.set(totalStateCount-sum , k)
+                }
+              }if (counter==this.count-2){
+                  in24hr =response[v][k]
+              }else if (counter==this.count-3){
+                  in48hr =response[v][k]
+              }else if (counter==this.count-4){
+                in72hr =response[v][k]
+            }
+              counter++;
+            }
         
-      }var secondLastDayCount
-     
-      var lastDayCount 
-      for(let x in objData)
-      {
-        var tempArr = [];  
-        lastDayCount = objData[x].confirmedCasesIndian
-        secondLastDayCount = secondLastObjData[x].confirmedCasesIndian
-        tempArr.push(objData[x].loc)
-        tempArr.push(lastDayCount)
-        tempArr.push(lastDayCount-secondLastDayCount)
-        tempArr.push(objData[x].deaths)
-        console.log(objData[x])
-        this.states.push(tempArr)
-      }
-      this.filteredStates =  this.states
-     console.log(this.states)
-  })
+          stateData.push(response[v]['State UT'])
+          stateData.push(totalStateCount)
+          if(in24hr-in48hr!=0)
+          stateData.push(in24hr-in48hr)
+          else stateData.push(in48hr-in72hr)
+          stateData.push(deathMap.get(response[v]['State UT']))
+          stateData.push(Math.max(...maxArray.keys()))
+          stateData.push(maxArray.get(Math.max(...maxArray.keys())))
+          this.states.push(stateData)
+          }
+         
+          this.filteredStates =  this.states
+    
+      })
+
 }
 
 get searchTerm(): string {
