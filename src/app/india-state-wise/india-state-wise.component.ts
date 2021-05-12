@@ -32,68 +32,85 @@ export class IndiaStateWiseComponent implements OnInit {
         }
           
     })
-    
+    if(!localStorage.getItem("stateData"))
+    {		
         this.getDataFromApi.getStateData().subscribe((response)=> {      
 
-          this.state = []
-          this.states = []
-          
-          this.countryCount =0 
-          this.count=0;
-          for(let q in response[0])
-          {
-              ++this.count;
-          }
-          for(let v in response)
-          {  let totalStateCount=0 
-            let in24hr =0
-            let in48hr =0
-            let in72hr = 0;
-            let counter =0;
-            let stateData= []
-            let maxArray = new Map();
-            
-            for(let k in response[v])
-            {
-              if(!isNaN(response[v][k]))
-              {
-                totalStateCount = response[v][k]
-              
-                if(maxArray.size==0)
-                {
-                  maxArray.set(1,"DD")
-                  maxArray.set(totalStateCount, "Date")   
-                }   
-                else {
-                    const sum =  [ ...maxArray.keys() ].reduce( (a, b) => a + b)
-                      if(totalStateCount-sum>0)
-                        maxArray.set(totalStateCount-sum , k)
-                }
-              }if (counter==this.count-2){
-                  in24hr =response[v][k]
-              }else if (counter==this.count-3){
-                  in48hr =response[v][k]
-              }else if (counter==this.count-4){
-                in72hr =response[v][k]
-            }
-              counter++;
-            }
-        
-          stateData.push(response[v]['State UT'])
-          stateData.push(totalStateCount)
-          if(in24hr-in48hr!=0)
-          stateData.push(in24hr-in48hr)
-          else stateData.push(in48hr-in72hr)
-          stateData.push(deathMap.get(response[v]['State UT']))
-          stateData.push(Math.max(...maxArray.keys()))
-          stateData.push(maxArray.get(Math.max(...maxArray.keys())))
-          this.states.push(stateData)
-          }
-         
-          this.filteredStates =  this.states
+          localStorage.setItem('stateData', JSON.stringify(response))      
+
+          this.processResposeData(response, deathMap)
     
       })
+    }else{
+      var jsonData =JSON.parse(localStorage.getItem('stateData'))     
+      this.processResposeData(jsonData, deathMap) 
 
+      this.getDataFromApi.getStateData().subscribe((response)=> {      
+
+        this.processResposeData(response, deathMap)
+  
+    })
+    }
+}
+
+processResposeData(response,  deathMap)
+{
+  this.state = []
+  this.states = []
+  
+  this.countryCount =0 
+  this.count=0;
+  for(let q in response[0])
+  {
+      ++this.count;
+  }
+  for(let v in response)
+  {  let totalStateCount=0 
+    let in24hr =0
+    let in48hr =0
+    let in72hr = 0;
+    let counter =0;
+    let stateData= []
+    let maxArray = new Map();
+    
+    for(let k in response[v])
+    {
+      if(!isNaN(response[v][k]))
+      {
+        totalStateCount = response[v][k]
+      
+        if(maxArray.size==0)
+        {
+          maxArray.set(1,"DD")
+          maxArray.set(totalStateCount, "Date")   
+        }   
+        else {
+            const sum =  [ ...maxArray.keys() ].reduce( (a, b) => a + b)
+              if(totalStateCount-sum>0)
+                maxArray.set(totalStateCount-sum , k)
+        }
+      }if (counter==this.count-2){
+          in24hr =response[v][k]
+      }else if (counter==this.count-3){
+          in48hr =response[v][k]
+      }else if (counter==this.count-4){
+        in72hr =response[v][k]
+    }
+      counter++;
+    }
+
+  stateData.push(response[v]['State UT'])
+  stateData.push(totalStateCount)
+  if(in24hr-in48hr!=0)
+  stateData.push(in24hr-in48hr)
+  else stateData.push(in48hr-in72hr)
+  stateData.push(deathMap.get(response[v]['State UT']))
+  stateData.push(Math.max(...maxArray.keys()))
+  stateData.push(maxArray.get(Math.max(...maxArray.keys())))
+  this.states.push(stateData)
+  }
+ 
+  this.filteredStates =  this.states
 }
 
 get searchTerm(): string {
