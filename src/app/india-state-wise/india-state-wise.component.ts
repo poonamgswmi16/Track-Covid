@@ -14,6 +14,17 @@ export class IndiaStateWiseComponent implements OnInit {
   stateData: any = [];
   countryCount: any = [];
   filteredStates: any = undefined;
+
+  private _searchState: string;
+
+  get searchState(): string {
+    return this._searchTerm;
+  }
+  set searchState(value: string) {
+    this._searchTerm = value;
+    this.filteredStates = this.filterData(this._searchTerm);
+  }
+
   constructor(private getDataFromApi :GetDataFromApiService) { }
 
   ngOnInit(): void {
