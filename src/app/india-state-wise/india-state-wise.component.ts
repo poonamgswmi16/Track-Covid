@@ -46,10 +46,9 @@ export class IndiaStateWiseComponent implements OnInit {
     if(!localStorage.getItem("stateData"))
     {		
         this.getDataFromApi.getStateData().subscribe((response)=> {      
-
-          localStorage.setItem('stateData', JSON.stringify(response))      
-
+            
           this.processResposeData(response, deathMap)
+          localStorage.setItem('stateData', JSON.stringify(response)) 
     
       })
     }else{
@@ -59,6 +58,7 @@ export class IndiaStateWiseComponent implements OnInit {
       this.getDataFromApi.getStateData().subscribe((response)=> {      
 
         this.processResposeData(response, deathMap)
+        localStorage.setItem('stateData', JSON.stringify(response)) 
   
     })
     }
