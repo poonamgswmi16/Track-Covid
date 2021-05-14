@@ -77,6 +77,16 @@ export class DisplayDataComponent implements OnInit,OnChanges {
       
     }
       );
+
+      if(!localStorage.getItem("stateData"))
+      {		
+          this.getDataFromApi.getStateData().subscribe((response)=> {      
+                          
+            localStorage.setItem('stateData', JSON.stringify(response)) 
+      
+        })
+      }
+
       this.getDataFromApi.peak.next(800); 
       
       
