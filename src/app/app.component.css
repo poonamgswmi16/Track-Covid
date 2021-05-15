@@ -1,8 +1,22 @@
+
+
+
+
+
 .jumbotron {
   padding-top:20px;
   padding-bottom: 20px;
   margin-bottom: 15px;
+  /* width: 100%; */
 }
+
+@media only screen and (max-width: 445px) {
+  .jumbotron {
+    width: 140%;
+  }
+}
+
+
 .navbar {
     overflow: hidden;
     /*background-color: RGB(233, 236, 239);*/
