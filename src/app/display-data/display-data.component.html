@@ -1,12 +1,20 @@
-<div class="container" style="margin-bottom: 5%;" >
-  <div class="form-group">
+<div class="container">
+    <div class="form-group">
       <input type="text" class="form-control"  placeholder="Search By Country" [(ngModel)]="searchTerm" />
   </div>
-    <table class="table table-striped">
+</div>
+
+
+<div class="container" style="margin-bottom: 5%;
+height: 27.5rem;
+overflow-y: scroll;
+overflow-x: auto;" >
+  
+    <table class="table table-striped" >
       <thead>
         <tr>
           <th>Country</th>
-          <th>Total Cases<span class="newCases">in last 24hr </span></th>
+          <th>Total Cases<span class="newCases"> in last 24hr </span></th>
           <th>Deaths</th>
           <!-- <th>Recovered</th> -->
           <th>Peak</th>
