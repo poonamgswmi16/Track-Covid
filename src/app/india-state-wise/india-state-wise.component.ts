@@ -122,6 +122,11 @@ processResposeData(response,  deathMap)
   }
  
   this.filteredStates =  this.states
+
+  this.filteredStates.sort((a,b)=>{
+    return b[1]-a[1];
+    })
+
 }
 
 get searchTerm(): string {
